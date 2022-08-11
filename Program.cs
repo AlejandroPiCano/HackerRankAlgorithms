@@ -8,6 +8,95 @@ namespace Algorithms
 {
     internal class Program
     {
+
+
+
+        /*
+         * Complete the 'cosine_similarity' function below.
+         *
+         * The function is expected to return a DOUBLE.
+         * The function accepts following parameters:
+         *  1. INTEGER_ARRAY a_keys
+         *  2. DOUBLE_ARRAY a_values
+         *  3. INTEGER_ARRAY b_keys
+         *  4. DOUBLE_ARRAY b_values
+         */
+
+        public static double cosine_similarity(List<int> a_keys, List<double> a_values, List<int> b_keys, List<double> b_values)
+        {
+            //List<double> aVectorComplete = GetCompletVector(a_keys, a_values);
+            //List<double> bVectorComplete = GetCompletVector(b_keys, b_values);
+
+            return (Prod(a_keys, b_keys,a_values, b_values)) / (Mag(a_values) * Mag(b_values));
+        }
+
+        public static double Prod(List<int> a_keys, List<int> b_keys, List<double> a_values, List<double> b_values)
+        {
+            double result = 0;
+
+            for (int i = 0; i < a_keys.Count; i++)
+            {
+                var akey = a_keys[i];
+
+                if (b_keys.Contains(akey))
+                {
+                    result += (a_values[i] * b_values[b_keys.IndexOf(akey)]);
+                }
+            }
+
+            return result;
+        }
+
+
+        public static double Mag(List<double> a_values)
+        {
+            return  Math.Sqrt(a_values.Select(a => Math.Pow(a, 2)).Sum());
+        }
+
+        private static List<double> GetCompletVector(List<int> a_keys, List<double> a_values)
+        {
+            List<double> vectorComplete = new List<double>();
+            int lastIndex = -1; 
+
+            for (int i = 0; i < a_keys.Count; i++)
+            {
+                //FillVectorWithZeros(i, lastIndex);
+
+                for (int j = lastIndex; j < a_keys[i]-1; j++)
+                {
+                    vectorComplete.Add(0);
+                }
+                vectorComplete.Add(a_values[i]);
+                lastIndex = a_keys[i];
+            }
+
+            return vectorComplete;
+        }
+
+        public static void fizzBuzz(int n)
+        {
+            for (int i = 0; i < n; i++)
+            {
+                if (i % 3 == 0 && i % 5 == 0)
+                {
+                    Console.WriteLine("FizzBuzz");
+                }
+                else if (i % 3 == 0 && i % 5 != 0)
+                {
+                    Console.WriteLine("Fizz");
+                }
+                else if (i % 3 != 0 && i % 5 == 0)
+                {
+                    Console.WriteLine("Buzz");
+                }
+                else
+                {
+                    Console.WriteLine(i);
+                }
+            }
+        }
+
+        #region Kangaroo
         /*
     * Complete the 'kangaroo' function below.
     *
@@ -26,23 +115,23 @@ namespace Algorithms
             else
                 return "NO";
         }
-    }
 
-
+        #endregion
+    
     #region CountApplesAndOranges
-    /*
- * Complete the 'countApplesAndOranges' function below.
- *
- * The function accepts following parameters:
- *  1. INTEGER s
- *  2. INTEGER t
- *  3. INTEGER a
- *  4. INTEGER b
- *  5. INTEGER_ARRAY apples
- *  6. INTEGER_ARRAY oranges
- */
+        /*
+     * Complete the 'countApplesAndOranges' function below.
+     *
+     * The function accepts following parameters:
+     *  1. INTEGER s
+     *  2. INTEGER t
+     *  3. INTEGER a
+     *  4. INTEGER b
+     *  5. INTEGER_ARRAY apples
+     *  6. INTEGER_ARRAY oranges
+     */
 
-    public static void countApplesAndOranges(int s, int t, int a, int b, List<int> apples, List<int> oranges)
+        public static void countApplesAndOranges(int s, int t, int a, int b, List<int> apples, List<int> oranges)
     {
         Console.WriteLine(GetCountOfFruitsInHouse(apples, s, t, a));
         Console.WriteLine(GetCountOfFruitsInHouse(oranges, s, t, b));
@@ -283,24 +372,30 @@ namespace Algorithms
     static void Main(string[] args)
     {
 
-        //var result =  compareTriplets(new List<int>() { 1, 2, 3 }, new List<int>() { 1, 4, 3 });
+            //var result =  compareTriplets(new List<int>() { 1, 2, 3 }, new List<int>() { 1, 4, 3 });
 
-        // foreach (var item in result)
-        //{
-        //    Console.WriteLine(item);
-        //}
+            // foreach (var item in result)
+            //{
+            //    Console.WriteLine(item);
+            //}
 
-        //plusMinus(new List<int>() { -4, 3, -9, 0, 4, 1 });
+            //plusMinus(new List<int>() { -4, 3, -9, 0, 4, 1 });
 
-        //staircase(6);
+            //staircase(6);
 
-        //miniMaxSum(new List<int>() { 256741038 ,623958417, 467905213, 714532089 ,938071625 });
+            //miniMaxSum(new List<int>() { 256741038 ,623958417, 467905213, 714532089 ,938071625 });
 
-        //Console.WriteLine(birthdayCakeCandles(new List<int>() { 4, 4, 1, 3, }));
+            //Console.WriteLine(birthdayCakeCandles(new List<int>() { 4, 4, 1, 3, }));
 
-        Console.WriteLine(timeConversion("12:00:00PM"));
+            //  Console.WriteLine(timeConversion("12:00:00PM"));
 
-        Console.ReadLine();
-    }
+
+
+
+            var x = GetCompletVector(new List<int>() { 2, 4, 5, 8 }, new List<double>() { 7, 5, 12, 1 });
+
+            //var y = cosine_similarity()
+            //Console.ReadLine();
+        }
 }
 }
