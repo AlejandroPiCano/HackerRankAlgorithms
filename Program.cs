@@ -8,6 +8,7 @@ namespace Algorithms
 {
     internal class Program
     {
+        #region TimeConversion
         /*
              * Complete the 'timeConversion' function below.
              *
@@ -19,7 +20,9 @@ namespace Algorithms
         {
             return DateTime.Parse(s).ToString("HH:mm:ss");
         }
+        #endregion
 
+        #region BirthdayCakeCandles
         /*
      * Complete the 'birthdayCakeCandles' function below.
      *
@@ -38,6 +41,11 @@ namespace Algorithms
             }
 
             return ocurrences;
+        }
+
+        public static int birthdayCakeCandlesSimple(List<int> candles)
+        {
+            return candles.Count(x => x == candles.Max());
         }
 
 
@@ -61,7 +69,9 @@ namespace Algorithms
 
             return ocurrences;
         }
+        #endregion
 
+        #region MiniMaxSum
         /*
      * Complete the 'miniMaxSum' function below.
      *
@@ -80,7 +90,9 @@ namespace Algorithms
             Console.WriteLine(min +  " " + max);
         }
 
+        #endregion
 
+        #region Staircase
         /*
     * Complete the 'staircase' function below.
     *
@@ -99,7 +111,9 @@ namespace Algorithms
             return new String(' ', total - i) + new string('#', i);
         }
 
+        #endregion
 
+        #region PlusMinus
         /*
      * Complete the 'plusMinus' function below.
      *
@@ -125,6 +139,9 @@ namespace Algorithms
             Console.WriteLine((float)((float)zeros / (float)total));
         }
 
+        #endregion
+
+        #region CompareTriplets
         public static List<int> compareTriplets(List<int> a, List<int> b)
         {
             List<int> result = new List<int>() { 0, 0 };
@@ -143,8 +160,9 @@ namespace Algorithms
 
             return result;
         }
+        #endregion
 
-
+        #region DiagonalDifference
         public static int diagonalDifference(List<List<int>> arr)
         {
             int leftToRightDiagonal = 0, rightToLeftDiagonal = 0;
@@ -157,13 +175,17 @@ namespace Algorithms
 
             return Math.Abs(leftToRightDiagonal - rightToLeftDiagonal);
         }
+        #endregion
 
         static void Main(string[] args)
         {
 
             //var result =  compareTriplets(new List<int>() { 1, 2, 3 }, new List<int>() { 1, 4, 3 });
 
-            //PrintListResult(result);
+            // foreach (var item in result)
+            //{
+            //    Console.WriteLine(item);
+            //}
 
             //plusMinus(new List<int>() { -4, 3, -9, 0, 4, 1 });
 
@@ -174,16 +196,6 @@ namespace Algorithms
             //Console.WriteLine(birthdayCakeCandles(new List<int>() { 4, 4, 1, 3, }));
 
             Console.WriteLine(timeConversion("12:00:00PM"));
-
-            Console.ReadLine();
-        }
-
-        private static void PrintListResult(List<int> result)
-        {
-            foreach (var item in result)
-            {
-                Console.WriteLine(item);
-            }
 
             Console.ReadLine();
         }
