@@ -8,6 +8,67 @@ namespace Algorithms
 {
     internal class Program
     {
+        #region PageCount
+        /*
+     * Complete the 'pageCount' function below.
+     *
+     * The function is expected to return an INTEGER.
+     * The function accepts following parameters:
+     *  1. INTEGER n
+     *  2. INTEGER p
+     */
+
+        public static int pageCount(int n, int p)
+        {
+            return Math.Min(p / 2, n % 2 == 0 ? (n + 1 - p) / 2 : (n + -p) / 2);
+        }
+        #endregion
+
+        #region SockMerchant
+        /*
+    * Complete the 'sockMerchant' function below.
+    *
+    * The function is expected to return an INTEGER.
+    * The function accepts following parameters:
+    *  1. INTEGER n
+    *  2. INTEGER_ARRAY ar
+    */
+
+        public static int sockMerchant(int n, List<int> ar)
+        {
+           return ar.GroupBy(a => a).Sum(a => a.Count()/2);
+        }
+        #endregion
+
+        #region BonAppetit
+        /*
+     * Complete the 'bonAppetit' function below.
+     *
+     * The function accepts following parameters:
+     *  1. INTEGER_ARRAY bill
+     *  2. INTEGER k
+     *  3. INTEGER b
+     */
+
+        public static void bonAppetit(List<int> bill, int k, int b)
+        {
+            int sum = 0;
+            for (int i = 0; i < bill.Count; i++)
+            {
+                if (i != k)
+                {
+                    sum += bill[i];
+                }
+            }
+
+            sum = sum / 2;
+
+            if(sum == b)
+                Console.WriteLine("Bon Appetit");
+            else
+                Console.WriteLine(Math.Abs(sum - b));
+        }
+        #endregion
 
         #region DayOfProgrammer
         /*
@@ -672,7 +733,8 @@ namespace Algorithms
 
             //}); 
 
-            Console.WriteLine(dayOfProgrammer(1800));
+            // Console.WriteLine(dayOfProgrammer(1800));
+            Console.WriteLine(sockMerchant(9, new List<int>() { 10 ,20 ,20, 10, 10, 30 ,50, 10, 20 }));
             //13.09.1917
             Console.ReadLine();
         }
