@@ -8,6 +8,46 @@ namespace Algorithms
 {
     internal class Program
     {
+        #region designerPdfViewer
+        /*
+     * Complete the 'designerPdfViewer' function below.
+     *
+     * The function is expected to return an INTEGER.
+     * The function accepts following parameters:
+     *  1. INTEGER_ARRAY h
+     *  2. STRING word
+     */
+
+        public static int designerPdfViewer(List<int> h, string word)
+        {
+            var letters = new List<char>() {
+                'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
+            };
+
+            var heights = word.Select(i => h[letters.IndexOf(i)]).ToList();
+
+            return heights.Max() * word.Count();
+        }
+        #endregion
+
+        #region hurdleRace
+        /*
+    * Complete the 'hurdleRace' function below.
+    *
+    * The function is expected to return an INTEGER.
+    * The function accepts following parameters:
+    *  1. INTEGER k
+    *  2. INTEGER_ARRAY height
+    */
+
+        public static int hurdleRace(int k, List<int> height)
+        {
+            int max = height.Max();
+
+            return k >= max? 0 : max-k;
+        }
+        #endregion
+
         #region formingMagicSquare
         /*
     * Complete the 'formingMagicSquare' function below.
