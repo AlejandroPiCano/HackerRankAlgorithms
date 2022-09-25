@@ -8,6 +8,114 @@ namespace Algorithms
 {
     internal class Program
     {
+        #region UtopianTree
+        /*
+   * Complete the 'utopianTree' function below.
+   *
+   * The function is expected to return an INTEGER.
+   * The function accepts INTEGER n as parameter.
+   */
+        public static int utopianTree(int n)
+        {
+            if (n == 0)
+                return 1;
+
+            int height = 1;
+
+            for (int i = 1; i <= n; i++)
+            {
+                if (i % 2 == 0)
+                    height++;
+                else
+                    height *= 2;
+            }
+
+            return height;
+        }
+
+        #endregion
+        #region climbingLeaderboard
+        /*
+         * Complete the 'climbingLeaderboard' function below.
+         *
+         * The function is expected to return an INTEGER_ARRAY.
+         * The function accepts following parameters:
+         *  1. INTEGER_ARRAY ranked
+         *  2. INTEGER_ARRAY player
+         */
+
+        public static List<int> climbingLeaderboard(List<int> ranked, List<int> player)
+        {
+            List<int> result = new List<int>();
+
+            if (!ranked.Any())
+            {
+                return player.Select(p => 1).ToList();
+            }
+
+            if (!player.Any())
+            {
+                return result;
+            }
+                        
+            player.Reverse();
+            int currenIndexPlay = 0, rankedj= 0, currentRanked = 1, lastRankedj = ranked[0];
+
+            int currentPlay = player[currenIndexPlay];
+
+
+            for (int j = 0; j < ranked.Count; j++)
+            {
+                rankedj = ranked[j];
+
+                if (currentPlay >= rankedj)
+                {
+                    if (rankedj < lastRankedj)
+                    {
+                        currentRanked++;
+                    }
+
+                    result.Add(currentRanked);
+
+                    currenIndexPlay++;
+                    while (currenIndexPlay < player.Count && player[currenIndexPlay] >= rankedj)
+                    {
+                        result.Add(currentRanked);
+                        currenIndexPlay++;
+                    }
+
+                    if (currenIndexPlay == player.Count)
+                    {
+                        break;
+                    }
+
+                    currentPlay = player[currenIndexPlay];
+                }
+                else
+                {
+                    if (rankedj < lastRankedj)
+                    {
+                        currentRanked++;
+                    }
+                }
+               
+                lastRankedj = rankedj;
+            }
+
+            for (int i = currenIndexPlay; i < player.Count; i++)
+            {
+                if(player[i] == rankedj)
+                    result.Add(currentRanked);
+                else
+                    result.Add(currentRanked+1);
+            }
+
+            result.Reverse();
+
+            return result;
+        }
+        #endregion
+
         #region designerPdfViewer
         /*
      * Complete the 'designerPdfViewer' function below.
@@ -44,7 +152,7 @@ namespace Algorithms
         {
             int max = height.Max();
 
-            return k >= max? 0 : max-k;
+            return k >= max ? 0 : max - k;
         }
         #endregion
 
@@ -147,7 +255,7 @@ namespace Algorithms
                     }
                 }
 
-                if(diff< minDiff)
+                if (diff < minDiff)
                     minDiff = diff;
             }
 
@@ -250,13 +358,13 @@ namespace Algorithms
 
         #endregion
 
-  
+
 
         private static bool CheckIfFormingMagicSquare(List<List<int>> s)
         {
             int sumRow = 0,
             sumCol = 0,
-            sumDiagDer = 0, 
+            sumDiagDer = 0,
             sumDiagIzq = 0;
 
             for (int i = 0; i < 3; i++)
@@ -269,7 +377,7 @@ namespace Algorithms
                     if (i == j)
                     {
                         sumDiagDer += s[i][i];
-                        sumDiagIzq += s[i][2-i];
+                        sumDiagIzq += s[i][2 - i];
                     }
                 }
 
@@ -304,15 +412,15 @@ namespace Algorithms
         static int getMoneySpent(int[] keyboards, int[] drives, int b)
         {
             int max = -1, sum = 0;
-            
+
             for (int i = 0; i < keyboards.Count(); i++)
             {
                 for (int j = 0; j < drives.Count(); j++)
                 {
                     sum = keyboards[i] + drives[j];
-                    
+
                     if (sum <= b && sum > max)
-                    { 
+                    {
                         max = sum;
                     }
                 }
@@ -349,7 +457,8 @@ namespace Algorithms
 
                     level--;
                 }
-                else {
+                else
+                {
                     level++;
                 }
             }
@@ -386,7 +495,7 @@ namespace Algorithms
 
         public static int sockMerchant(int n, List<int> ar)
         {
-           return ar.GroupBy(a => a).Sum(a => a.Count()/2);
+            return ar.GroupBy(a => a).Sum(a => a.Count() / 2);
         }
         #endregion
 
@@ -413,7 +522,7 @@ namespace Algorithms
 
             sum = sum / 2;
 
-            if(sum == b)
+            if (sum == b)
                 Console.WriteLine("Bon Appetit");
             else
                 Console.WriteLine(Math.Abs(sum - b));
@@ -451,7 +560,7 @@ namespace Algorithms
                 return dateTime.AddDays(days).ToString("dd.MM.yyyy");
             }
 
-          
+
         }
 
         #endregion
@@ -468,10 +577,10 @@ namespace Algorithms
         public static int migratoryBirdsNoOpt(List<int> arr)
         {
             return arr.Select(
-                fe => 
-                new {count = arr.Count(c => c == fe), element = fe })
+                fe =>
+                new { count = arr.Count(c => c == fe), element = fe })
                 .OrderByDescending(m => m.count)
-                .FirstOrDefault().element; 
+                .FirstOrDefault().element;
         }
 
         public static int migratoryBirdsDict(List<int> arr)
@@ -486,7 +595,7 @@ namespace Algorithms
 
                 if (dict.ContainsKey(value))
                 {
-                    dict[value]++;                   
+                    dict[value]++;
                 }
                 else
                 {
@@ -512,8 +621,8 @@ namespace Algorithms
 
         public static int migratoryBirds(List<int> arr)
         {
-            var dict = new Dictionary<int, Tuple<int,int>>();
-           
+            var dict = new Dictionary<int, Tuple<int, int>>();
+
 
             for (int i = 0; i < arr.Count; i++)
             {
@@ -521,7 +630,7 @@ namespace Algorithms
 
                 if (dict.ContainsKey(value))
                 {
-                    dict[value] = new Tuple<int, int>(dict[value].Item1+1, dict[value].Item2) ;
+                    dict[value] = new Tuple<int, int>(dict[value].Item1 + 1, dict[value].Item2);
                 }
                 else
                 {
@@ -531,7 +640,7 @@ namespace Algorithms
             }
 
             return dict.OrderByDescending(d => d.Value.Item1).ThenBy(d => d.Key).First().Key;
-           
+
         }
         #endregion
 
@@ -550,9 +659,9 @@ namespace Algorithms
         {
             int result = 0;
 
-            for (int i = 0; i < ar.Count-1; i++)
+            for (int i = 0; i < ar.Count - 1; i++)
             {
-                for (int j = i+1; j < ar.Count; j++)
+                for (int j = i + 1; j < ar.Count; j++)
                 {
                     if ((ar[i] + ar[j]) % k == 0)
                         result++;
@@ -583,7 +692,7 @@ namespace Algorithms
 
             while (index < s.Count)
             {
-                for (int i = index; i < index + m && i< s.Count; i++)
+                for (int i = index; i < index + m && i < s.Count; i++)
                 {
                     if (s[i] + sumContiguous <= d)
                     {
@@ -591,15 +700,15 @@ namespace Algorithms
 
                         if (sumContiguous == d && i == index + m - 1)
                         {
-                          
-                           // index = i;
+
+                            // index = i;
                             result++;
                             break;
                         }
                     }
                     else
                     {
-                     
+
                         break;
                     }
                 }
@@ -1094,14 +1203,21 @@ namespace Algorithms
             //   int[] drives = Array.ConvertAll(drivesStr.Split(' '), drivesTemp => Convert.ToInt32(drivesTemp));
             //;
             //    Console.WriteLine(getMoneySpent(keyboards, drives, 374625));
-            var square = new List<List<int>>() {
-              new List<int>{ 4, 9, 2 },
-              new List<int>{ 3, 5, 7 },
-              new List<int>{ 8, 1, 5 },
-            };
+            //var square = new List<List<int>>() {
+            //  new List<int>{ 4, 9, 2 },
+            //  new List<int>{ 3, 5, 7 },
+            //  new List<int>{ 8, 1, 5 },
+            //};
 
-            Console.WriteLine(formingMagicSquare(square));
+            //Console.WriteLine(formingMagicSquare(square));
+            var ranked = new List<int> { 295, 294, 291, 287, 287, 285, 285, 284, 283, 279, 277, 274, 274, 271, 270, 268, 268, 268, 264, 260, 259, 258, 257, 255, 252, 250, 244, 241, 240, 237, 236, 236, 231, 227, 227, 227, 226, 225, 224, 223, 216, 212, 200, 197, 196, 194, 193, 189, 188, 187, 183, 182, 178, 177, 173, 171, 169, 165, 143, 140, 137, 135, 133, 130, 130, 130, 128, 127, 122, 120, 116, 114, 113, 109, 106, 103, 99, 92, 85, 81, 69, 68, 63, 63, 63, 61, 57, 51, 47, 46, 38, 30, 28, 25, 22, 15, 14, 12, 6, 4 };
+            var player = new List<int> { 5, 5, 6, 14, 19, 20, 23, 25, 29, 29, 30, 30, 32, 37, 38, 38, 38, 41, 41, 44, 45, 45, 47, 59, 59, 62, 63, 65, 67, 69, 70, 72, 72, 76, 79, 82, 83, 90, 91, 92, 93, 98, 98, 100, 100, 102, 103, 105, 106, 107, 109, 112, 115, 118, 118, 121, 122, 122, 123, 125, 125, 125, 127, 128, 131, 131, 133, 134, 139, 140, 141, 143, 144, 144, 144, 144, 147, 150, 152, 155, 156, 160, 164, 164, 165, 165, 166, 168, 169, 170, 171, 172, 173, 174, 174, 180, 184, 187, 187, 188, 194, 197, 197, 197, 198, 201, 202, 202, 207, 208, 211, 212, 212, 214, 217, 219, 219, 220, 220, 223, 225, 227, 228, 229, 229, 233, 235, 235, 236, 242, 242, 245, 246, 252, 253, 253, 257, 257, 260, 261, 266, 266, 268, 269, 271, 271, 275, 276, 281, 282, 283, 284, 285, 287, 289, 289, 295, 296, 298, 300, 300, 301, 304, 306, 308, 309, 310, 316, 318, 318, 324, 326, 329, 329, 329, 330, 330, 332, 337, 337, 341, 341, 349, 351, 351, 354, 356, 357, 366, 369, 377, 379, 380, 382, 391, 391, 394, 396, 396, 400 };
+            var result = climbingLeaderboard(ranked, player);
 
+            foreach (var item in result)
+            {
+                Console.WriteLine(item);
+            }
             Console.ReadLine();
         }
     }
