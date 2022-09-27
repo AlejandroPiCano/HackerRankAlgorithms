@@ -8,6 +8,69 @@ namespace Algorithms
 {
     internal class Program
     {
+        #region viralAdvertising
+        /*
+    * Complete the 'viralAdvertising' function below.
+    *
+    * The function is expected to return an INTEGER.
+    * The function accepts INTEGER n as parameter.
+    */
+
+        public static int viralAdvertising(int n)
+        {
+            if (n < 0) return 0;
+
+            if (n == 1) return 2;
+
+            int countLikes = 2, shared = 5;
+
+            for (int i = 2; i <= n; i++)
+            {
+                shared = (shared / 2) * 3;
+                countLikes+= shared / 2;
+            }
+
+            return countLikes;
+        }
+
+        #endregion
+        #region beautifulDays
+        /*
+    * Complete the 'beautifulDays' function below.
+    *
+    * The function is expected to return an INTEGER.
+    * The function accepts following parameters:
+    *  1. INTEGER i
+    *  2. INTEGER j
+    *  3. INTEGER k
+    */
+
+        public static int beautifulDays(int i, int j, int k)
+        {
+            int cont = 0;
+
+            for (int n = i; n <= j; n++)
+            {
+                int reverseN = Reverse(n);
+
+                if(Math.Abs(n-reverseN)%k == 0)
+                  cont++;
+            }
+
+            return cont;
+        }
+
+        public static int beautifulDaysLinq(int i, int j, int k)
+        {
+            return Enumerable.Range(i, j - i + 1).Count(n => Math.Abs(int.Parse(string.Join("", n.ToString().Reverse()))-n)%k == 0);           
+        }
+
+        private static int Reverse(int n)
+        {
+           return int.Parse(string.Join("",n.ToString().Reverse()));
+        }
+
+        #endregion
         #region pickingNumbers
 
         /*
@@ -1280,7 +1343,9 @@ namespace Algorithms
 
 
             //Console.WriteLine(pickingNumbers(new List<int>() { 4, 6 ,5 ,3 ,3 ,1 })); //3
-            Console.WriteLine(pickingNumbers(new List<int>() { 1 ,2 ,2 ,3 ,1 ,2 }));//5
+            // Console.WriteLine(pickingNumbers(new List<int>() { 1 ,2 ,2 ,3 ,1 ,2 }));//5
+            //Console.WriteLine(beautifulDaysLinq(20,23,6));
+            Console.WriteLine(viralAdvertising(3));
          
             Console.ReadLine();
         }
