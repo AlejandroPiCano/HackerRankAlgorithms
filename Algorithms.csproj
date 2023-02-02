@@ -46,9 +46,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AsynchronousProgramming.cs" />
+    <Compile Include="ClassicUtils.cs" />
     <Compile Include="NovaforiExercise.cs" />
+    <Compile Include="Operators.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SortUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

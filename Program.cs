@@ -1394,7 +1394,7 @@ namespace Algorithms
         }
         #endregion
 
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
 
             //var result =  compareTriplets(new List<int>() { 1, 2, 3 }, new List<int>() { 1, 4, 3 });
@@ -1480,7 +1480,48 @@ namespace Algorithms
 
             //}
 
-            Console.WriteLine(jumpingOnClouds(new int[] { 0, 0, 1, 0}, 2));
+            //Console.WriteLine(jumpingOnClouds(new int[] { 0, 0, 1, 0}, 2));
+
+            //Console.ReadLine();
+
+            //var result = QuickSortUtil.QuickSort(new List<int> { 2,1 });
+
+            //var result = SortUtils.BubbleSort(new List<int> { 2,8, 6,6,2, 1, 5, 9, 10, 12 });
+
+
+            //foreach (var item in result)
+            //{
+            //    Console.WriteLine(item);
+            //}
+
+            //Console.WriteLine( ClassicUtils.ReverseString2("2 abcdefgh"));
+
+            //Console.WriteLine(ClassicUtils.IsPalindrome("kayak"));
+
+            //Console.WriteLine(ClassicUtils.RemoveDuplicateCharacters2("23546676678"));
+
+            //var result = ClassicUtils.FindAllSubstrings("abcd");
+
+            //foreach (var item in result)
+            //{
+            //    Console.WriteLine(item);
+            //}
+
+            //AnotherClass ac1 = new AnotherClass(1);
+            //AnotherClass ac2 = new AnotherClass(2);
+            //AnotherClass ac3 = ac1+ac2;
+
+            //Console.WriteLine(ac3.Number);
+
+            //await AsynchronousProgramming.TaskParallel();
+
+            //var result = ClassicUtils.RotateLeft(new int[5] { 1, 2, 3, 4, 5 }, 5).ToList() ;
+            //result.ForEach(i => Console.WriteLine(i));
+
+            //ClassicUtils.CribaErastotenes(20);
+
+            Console.WriteLine( ClassicUtils.IsPrime(23)); 
+
 
             Console.ReadLine();
         }
