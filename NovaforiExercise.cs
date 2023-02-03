@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using System.Runtime.CompilerServices;
 
 namespace Algorithms
 {
@@ -23,7 +24,7 @@ namespace Algorithms
         internal class Program
         {
             private const string ApiURL = "https://gist.githubusercontent.com/christianpanton/10d65ccef9f29de3acd49d97ed423736/raw/b09563bc0c4b318132c7a738e679d4f984ef0048/kings";
-            static void MainExercise(string[] args)
+            static async Task MainExercise(string[] args)
             {
                 try
                 {
@@ -32,7 +33,7 @@ namespace Algorithms
                     httpClient.DefaultRequestHeaders.Accept.Add(
                     new MediaTypeWithQualityHeaderValue("application/json"));
 
-                    HttpResponseMessage response = httpClient.GetAsync(ApiURL).Result;
+                    HttpResponseMessage response = await httpClient.GetAsync(ApiURL);
 
                     //another way
                     //var res = new WebClient().DownloadString(ApiURL);
