@@ -4,6 +4,8 @@ using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Runtime.Remoting.Messaging;
+using System.Security.Cryptography;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +14,175 @@ namespace Algorithms
 {
     internal class Program
     {
+        #region repeatedString
+        /*
+     * Complete the 'repeatedString' function below.
+     *
+     * The function is expected to return a LONG_INTEGER.
+     * The function accepts following parameters:
+     *  1. STRING s
+     *  2. LONG_INTEGER n
+     */
+
+        public static long repeatedString(string s, long n)
+        {
+            int lengthStr = s.Length;
+
+            long div = n / lengthStr;
+            int mod = (int) (n % lengthStr);
+
+            long countA = s.Count(x => x == 'a') * div;
+            countA += s.Substring(0, mod).Count(x => x == 'a');
+
+            return countA;
+
+        }
+        #endregion
+
+        #region nonDivisibleSubset (Not resolved)
+        /* Complete the 'nonDivisibleSubset' function below.
+     *
+     * The function is expected to return an INTEGER.
+     * The function accepts following parameters:
+     *  1. INTEGER k
+     *  2. INTEGER_ARRAY s
+     */
+
+
+        public static int nonDivisibleSubset(int k, List<int> s)
+        {
+            var combinations = Combinations(s);
+            int maxNumber = int.MinValue;
+
+            foreach (var combination in combinations)
+            {
+                if (AreAllItemsNotEvenlyDivisibleByK(combination, k) && combination.Count > maxNumber)
+                { 
+                    maxNumber = combination.Count;
+                }
+            }
+
+            return maxNumber;
+        }
+
+        private static List<List<int>> Combinations(List<int> source)
+        {
+            if (null == source)
+                throw new ArgumentNullException(nameof(source));
+
+
+            return Enumerable
+              .Range(0, 1 << (source.Count))
+              .Select(index => source
+                 .Where((v, i) => (index & (1 << i)) != 0)
+                 .ToList()).ToList();
+        }
+
+        private static bool AreAllItemsNotEvenlyDivisibleByK(List<int> combination, int k)
+        {
+            if (combination.Count == 1)
+                return false;
+
+            for (int i = 0; i < combination.Count-1; i++)
+            {
+                for (int j = i+1; j < combination.Count; j++)
+                {
+                    if ((combination[i] + combination[j]) % k == 0)
+                        return false;
+                }
+            }
+
+            return true;
+        }
+
+        #endregion
+
+        #region cutTheSticks
+        /*
+     * Complete the 'cutTheSticks' function below.
+     *
+     * The function is expected to return an INTEGER_ARRAY.
+     * The function accepts INTEGER_ARRAY arr as parameter.
+     */
+
+        public static List<int> cutTheSticks(List<int> arr)
+        {
+            List<int> result = new List<int>() { arr.Count};
+
+            while (arr.Count > 1 && arr.Any(a => a != arr[0]))
+            {
+                arr = arr.Select(a => a - arr.Min()).Where(a => a != 0).ToList();
+                result.Add(arr.Count);
+            }
+
+            return result;
+        }
+        #endregion
+
+        #region appendAndDelete
+        /*
+    * Complete the 'appendAndDelete' function below.
+    *
+    * The function is expected to return a STRING.
+    * The function accepts following parameters:
+    *  1. STRING s
+    *  2. STRING t
+    *  3. INTEGER k
+    */
+
+        public static string appendAndDelete(string s, string t, int k)
+        {
+            return AppendAndDeleteRec(s, t, k) ? "Yes" : "No";
+        }
+
+        private static bool AppendAndDeleteRec(string s, string t, int k)
+        {
+            if (s == t && k == 0)
+                return true;
+
+            int i = 0;
+            
+            while (i < s.Length && i < t.Length && s[i] == t[i])
+            {                
+                i++;
+            }
+
+            if (i < s.Length)
+            {
+                s = s.Substring(i);
+            }
+            else
+            {
+                s = "";
+            }
+
+            if (i < t.Length)
+            {
+                t = t.Substring(i);
+            }
+            else
+            {
+                t = "";
+            }
+
+            if (s != t)
+            {
+                k -= (s.Length); //the count of characters that i have to remove of s
+                k -= (t.Length); //the count of characters that i have to add of t
+            }
+
+            if (k < 0)
+                return false;
+
+            if(k%2==0)
+                return true;
+
+            k -= 2*i;
+
+            return (k >= 0);
+        }
+        #endregion
+
         #region jumpingOnClouds
         // Complete the jumpingOnClouds function below.
         static int jumpingOnClouds(int[] c, int k)
@@ -152,6 +323,7 @@ namespace Algorithms
         }
 
         #endregion
+
         #region beautifulDays
         /*
     * Complete the 'beautifulDays' function below.
@@ -189,6 +361,7 @@ namespace Algorithms
         }
 
         #endregion
+
         #region pickingNumbers
 
         /*
@@ -1520,8 +1693,31 @@ namespace Algorithms
 
             //ClassicUtils.CribaErastotenes(20);
 
-            Console.WriteLine( ClassicUtils.IsPrime(23)); 
+            // Console.WriteLine(ClassicUtils.IsPrime(23));
 
+
+
+            //Console.WriteLine(appendAndDelete("aaaaaaaaaa", "aaaaa", 7));
+            //Console.WriteLine(appendAndDelete("abcd", "abcdert", 10));
+            // Console.WriteLine(appendAndDelete("qwerasdf", "qwerbsdf", 6));
+
+            //var result = cutTheSticks(new List<int>() { 5, 4, 4, 2, 2, 8 });
+            //result.ForEach(i => Console.WriteLine(i));
+            //Console.WriteLine();
+
+            //result = cutTheSticks(new List<int>() { 1,2 ,3, 4 ,3 ,3, 2, 1 });
+            //result.ForEach(i => Console.WriteLine(i));
+            //Console.WriteLine();
+
+            // Console.WriteLine(  nonDivisibleSubset(4, new List<int>() { 19, 10, 12, 10, 24, 25, 22 })); 
+
+            //Console.WriteLine(nonDivisibleSubset(9, new List<int>() 
+            //{
+            //    61197933,56459859,319018589,271720536,358582070,849720202,481165658,675266245,541667092,615618805,129027583,755570852,437001718,86763458,791564527,163795318,981341013,516958303,592324531,611671866,157795445,718701842,773810960,72800260,281252802,404319361,757224413,682600363,606641861,986674925,176725535,256166138,827035972,124896145,37969090,136814243,274957936,980688849,293456190,141209943,346065260,550594766,132159011,491368651,3772767,131852400,633124868,148168785,339205816,705527969,551343090,824338597,241776176,286091680,919941899,728704934,37548669,513249437,888944501,239457900,977532594,140391002,260004333,911069927,586821751,113740158,370372870,97014913,28011421,489017248,492953261,73530695,27277034,570013262,81306939,519086053,993680429,599609256,639477062,677313848,950497430,672417749,266140123,601572332,273157042,777834449,123586826
+            //}) );
+
+            Console.WriteLine(repeatedString("bcbccacaacbbacabcabccacbccbababbbbabcccbbcbcaccababccbcbcaabbbaabbcaabbbbbbabcbcbbcaccbccaabacbbacbc", 649606239668));
+           // Console.WriteLine(repeatedString("aba", 10));
 
             Console.ReadLine();
         }
