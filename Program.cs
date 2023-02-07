@@ -23,7 +23,6 @@ namespace Algorithms
     * The function is expected to return an INTEGER_ARRAY.
     * The function accepts STRING_ARRAY topic as parameter.
     */
-
         public static List<int> acmTeam(List<string> topic)
         {
             int maxSubject = int.MinValue, countMaxSubjects = 0;
