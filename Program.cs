@@ -14,6 +14,103 @@ namespace Algorithms
 {
     internal class Program
     {
+
+        #region acmTeam
+
+        /*
+    * Complete the 'acmTeam' function below.
+    *
+    * The function is expected to return an INTEGER_ARRAY.
+    * The function accepts STRING_ARRAY topic as parameter.
+    */
+
+        public static List<int> acmTeam(List<string> topic)
+        {
+            int maxSubject = int.MinValue, countMaxSubjects = 0;
+
+            for (int i = 0; i < topic.Count-1; i++)
+            {
+                for (int j = i+1; j < topic.Count; j++)
+                {
+                    var max = GetMaxSubjectsBetweenTeams(topic[i], topic[j]);
+
+                    if (max > maxSubject)
+                    {
+                        maxSubject = max;
+                        countMaxSubjects = 1;
+                    }
+                    else if (max == maxSubject)
+                    { 
+                        countMaxSubjects++;
+                    }
+                }
+            }
+
+            return new List<int>() { maxSubject, countMaxSubjects };
+        }
+
+        private static int GetMaxSubjectsBetweenTeams(string v1, string v2)
+        {
+            int result = 0;
+            for (int i = 0; i < v1.Length; i++)
+            {
+                if (v1[i]== '1' || v2[i] == '1')
+                    result++;
+            }
+
+            return result;
+        }
+
+        #endregion
+
+        #region equalizeArray
+        /*
+     * Complete the 'equalizeArray' function below.
+     *
+     * The function is expected to return an INTEGER.
+     * The function accepts INTEGER_ARRAY arr as parameter.
+     */
+
+        public static int equalizeArray(List<int> arr)
+        {           
+            var dict = arr.GroupBy<int, int>(x => x);
+            var maxOcurrenceskeyValue = dict.FirstOrDefault(item => item.Count() == arr.Max(x => arr.Count(i => x == i)));
+
+            return arr.Count - maxOcurrenceskeyValue.Count();
+        }
+
+        #endregion
+
+
+        #region jumpingOnClouds
+        /*
+     * Complete the 'jumpingOnClouds' function below.
+     *
+     * The function is expected to return an INTEGER.
+     * The function accepts INTEGER_ARRAY c as parameter.
+     */
+
+        public static int jumpingOnClouds(List<int> c)
+        {
+            return jumpingOnCloudsRec(0, c);
+        }
+
+        private static int jumpingOnCloudsRec(int index, List<int> c)
+        {
+            if(index == c.Count-1)
+                return 0;
+
+            int jumpDouble = int.MaxValue, jumpSimple = int.MaxValue;
+
+            if (index + 2 <= c.Count - 1 && c[index+2] != 1)
+                jumpDouble = 1 + jumpingOnCloudsRec(index+2, c);
+
+            if (index + 1 <= c.Count - 1 && c[index + 1] != 1)
+                jumpSimple = 1 + jumpingOnCloudsRec(index + 1, c);
+
+            return Math.Min(jumpSimple, jumpDouble);
+        }
+        #endregion
         #region repeatedString
         /*
      * Complete the 'repeatedString' function below.
@@ -1716,8 +1813,13 @@ namespace Algorithms
             //    61197933,56459859,319018589,271720536,358582070,849720202,481165658,675266245,541667092,615618805,129027583,755570852,437001718,86763458,791564527,163795318,981341013,516958303,592324531,611671866,157795445,718701842,773810960,72800260,281252802,404319361,757224413,682600363,606641861,986674925,176725535,256166138,827035972,124896145,37969090,136814243,274957936,980688849,293456190,141209943,346065260,550594766,132159011,491368651,3772767,131852400,633124868,148168785,339205816,705527969,551343090,824338597,241776176,286091680,919941899,728704934,37548669,513249437,888944501,239457900,977532594,140391002,260004333,911069927,586821751,113740158,370372870,97014913,28011421,489017248,492953261,73530695,27277034,570013262,81306939,519086053,993680429,599609256,639477062,677313848,950497430,672417749,266140123,601572332,273157042,777834449,123586826
             //}) );
 
-            Console.WriteLine(repeatedString("bcbccacaacbbacabcabccacbccbababbbbabcccbbcbcaccababccbcbcaabbbaabbcaabbbbbbabcbcbbcaccbccaabacbbacbc", 649606239668));
-           // Console.WriteLine(repeatedString("aba", 10));
+            // Console.WriteLine(repeatedString("bcbccacaacbbacabcabccacbccbababbbbabcccbbcbcaccababccbcbcaabbbaabbcaabbbbbbabcbcbbcaccbccaabacbbacbc", 649606239668));
+            // Console.WriteLine(repeatedString("aba", 10));
+
+            //Console.WriteLine(jumpingOnClouds(new List<int>() { 0,1,0,0,0,1,0}));
+            //Console.WriteLine(jumpingOnClouds(new List<int>() { 0, 0, 0, 0, 1, 0 }));
+
+            Console.WriteLine(equalizeArray(new List<int>() { 3 ,3 ,2 ,1 ,3 }));
 
             Console.ReadLine();
         }
