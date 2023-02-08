@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -8,12 +9,164 @@ using System.Runtime.Remoting.Messaging;
 using System.Security.Cryptography;
 using System.Security.Policy;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Algorithms
 {
     internal class Program
     {
+        #region howManyGames
+        /*
+     * Complete the 'howManyGames' function below.
+     *
+     * The function is expected to return an INTEGER.
+     * The function accepts following parameters:
+     *  1. INTEGER p
+     *  2. INTEGER d
+     *  3. INTEGER m
+     *  4. INTEGER s
+     */
+
+        public static int howManyGames(int topPrice, int discount, int minPrice, int budget)
+        {
+            // Return the number of games you can buy
+            int count = 0;
+
+            while (budget - topPrice >= 0)
+            {
+                count++;
+                budget -= topPrice;
+                topPrice -= discount;
+                topPrice = Math.Max(topPrice, minPrice);
+            }
+
+            return count;
+        }
+
+        #endregion
+
+        #region minimumDistances
+        /*
+    * Complete the 'minimumDistances' function below.
+    *
+    * The function is expected to return an INTEGER.
+    * The function accepts INTEGER_ARRAY a as parameter.
+    */
+
+        public static int minimumDistances(List<int> a)
+        {
+            int minDistance = int.MaxValue;
+
+            for (int i = 0; i < a.Count-1; i++)
+            {
+                for (int j = i+1; j < a.Count && j-i <minDistance; j++)
+                {
+                    if (a[i] == a[j])
+                    { 
+                        var distance = j - i;
+
+                        if (distance < minDistance)
+                            minDistance = distance;
+                    }
+                }
+            }
+
+            return minDistance == int.MaxValue ? -1: minDistance;
+        }
+
+        #endregion
+
+        #region beautifulTriplets
+        /*
+     * Complete the 'beautifulTriplets' function below.
+     *
+     * The function is expected to return an INTEGER.
+     * The function accepts following parameters:
+     *  1. INTEGER d
+     *  2. INTEGER_ARRAY arr
+     */
+
+        public static int beautifulTriplets(int d, List<int> arr)
+        {
+            int count = 0;
+
+            for (int i = 0; i < arr.Count - 2; i++)
+                for (int j = i + 1; j < arr.Count - 1; j++)
+                    if (arr[j] - arr[i] == d)
+                    {
+                        for (int k = j + 1; k < arr.Count; k++)
+                            if (arr[k] - arr[j] == d)
+                                count++;
+                    }
+
+            return count;
+        }
+        #endregion
+
+        #region kaprekarNumbers
+        /*
+     * Complete the 'kaprekarNumbers' function below.
+     *
+     * The function accepts following parameters:
+     *  1. INTEGER p
+     *  2. INTEGER q
+     */
+
+        public static void kaprekarNumbers(int p, int q)
+        {           
+            bool anyKraperNumber = false;
+            for (int i = p; i <= q; i++)
+            {
+                if (IsKrapekarNumber(i))
+                {
+                    anyKraperNumber = true;
+                    Console.Write(i + " ");
+                }
+            }
+
+            if(!anyKraperNumber)
+                Console.WriteLine("INVALID RANGE");
+        }
+
+        private static bool IsKrapekarNumber(int i)
+        {
+            var pow = Math.Pow(i, 2);
+
+            string powStr = pow.ToString();
+
+            string firstHalfStr = powStr.Substring(0, powStr.Length / 2);
+            double firstHalfNumber = double.Parse(firstHalfStr!= "" ? firstHalfStr: "0");
+
+            string secondHalfStr = powStr.Substring(powStr.Length / 2);
+            double secondHalfNumber = double.Parse(secondHalfStr != "" ? secondHalfStr : "0");
+
+            return (firstHalfNumber + secondHalfNumber == i);
+        }
+        #endregion
+
+        #region taumBday
+        /*
+     * Complete the 'taumBday' function below.
+     *
+     * The function is expected to return a LONG_INTEGER.
+     * The function accepts following parameters:
+     *  1. INTEGER b
+     *  2. INTEGER w
+     *  3. INTEGER bc
+     *  4. INTEGER wc
+     *  5. INTEGER z
+     */
+
+        public static long taumBday(long b, long w, long bc, long wc, long z)
+        {
+            long buyinBothColors = bc *b + wc *w;
+            long buyinOnlyBlackColors = (bc * b) + (bc+z) * w;
+            long buyinOnlyWhiteColors = (w * wc) + (wc + z) * b;
+
+            return Math.Min(buyinBothColors, Math.Min(buyinOnlyBlackColors, buyinOnlyWhiteColors));
+        }
+        #endregion
 
         #region acmTeam
 
@@ -1818,8 +1971,15 @@ namespace Algorithms
             //Console.WriteLine(jumpingOnClouds(new List<int>() { 0,1,0,0,0,1,0}));
             //Console.WriteLine(jumpingOnClouds(new List<int>() { 0, 0, 0, 0, 1, 0 }));
 
-            Console.WriteLine(equalizeArray(new List<int>() { 3 ,3 ,2 ,1 ,3 }));
+            // Console.WriteLine(equalizeArray(new List<int>() { 3 ,3 ,2 ,1 ,3 }));
 
+            //Console.WriteLine(taumBday(27984, 1402, 619246, 615589, 247954));
+
+            //kaprekarNumbers(1, 99999);
+
+            Console.WriteLine(howManyGames(20, 3, 6, 70));
+            Console.WriteLine(howManyGames(20, 3, 6, 80));
+            Console.WriteLine(howManyGames(20, 3, 6, 85));
             Console.ReadLine();
         }
     }
