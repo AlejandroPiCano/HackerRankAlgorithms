@@ -22,7 +22,7 @@ namespace Algorithms
         {
             if (c.Count() == 1)
             {
-                return Math.Max(c[0] - 0, n - c[0]);
+                return Math.Max(c[0] - 0, n - c[0] -1 );
             }
 
             c = c.OrderBy(x => x).ToArray();
