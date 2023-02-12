@@ -16,6 +16,105 @@ namespace Algorithms
 {
     internal class Program
     {
+        #region flatlandSpaceStations
+        // Complete the flatlandSpaceStations function below.
+        static int flatlandSpaceStations(int n, int[] c)
+        {
+            if (c.Count() == 1)
+            {
+                return Math.Max(c[0] - 0, n - c[0]);
+            }
+
+            c = c.OrderBy(x => x).ToArray();
+
+            int max = c[0], dist = 0;
+
+            for (int i = 0; i < c.Count() - 1; i++)
+            {
+                dist = (c[i + 1] - c[i]) / 2;
+                if (dist > max)
+                    max = dist;
+            }
+
+            dist = n - c[c.Count() - 1] - 1;
+
+            if (dist > max)
+                max = dist;
+
+            return max;
+
+        }
+        #endregion
+
+        #region chocolateFeast
+
+        /*
+     * Complete the 'chocolateFeast' function below.
+     *
+     * The function is expected to return an INTEGER.
+     * The function accepts following parameters:
+     *  1. INTEGER n
+     *  2. INTEGER c
+     *  3. INTEGER m
+     */
+
+        public static int chocolateFeast(int n, int c, int m)
+        {
+            int result = n / c;
+
+            int wrappers = result;
+
+            int newChocolates = 0;
+
+            while (wrappers >= m)
+            {
+                newChocolates = (wrappers / m);
+                result += newChocolates;
+
+                wrappers = newChocolates + (wrappers % m);
+            }
+
+            return result;
+        }
+
+        #endregion
+
+        #region workbook
+        /*
+    * Complete the 'workbook' function below.
+    *
+    * The function is expected to return an INTEGER.
+    * The function accepts following parameters:
+    *  1. INTEGER n
+    *  2. INTEGER k
+    *  3. INTEGER_ARRAY arr
+    */
+
+        public static int workbook(int n, int k, List<int> arr)
+        {
+            int result = 0;
+            int totalPages = 0;
+            for (int i = 0; i < arr.Count; i++)
+            {
+                var problemsNumber = arr[i];
+
+                int pageNumber = 0;
+                while (problemsNumber > 0)
+                {
+                    problemsNumber -= k;
+
+                    pageNumber++;
+                    totalPages++;
+
+                    if (totalPages > (k * (pageNumber - 1)) && totalPages <= (problemsNumber >= 0 ? k * pageNumber : problemsNumber + (k * pageNumber)))
+                        result++;
+                }
+            }
+
+            return result;
+        }
+        #endregion
+
         #region howManyGames
         /*
      * Complete the 'howManyGames' function below.
@@ -58,12 +157,12 @@ namespace Algorithms
         {
             int minDistance = int.MaxValue;
 
-            for (int i = 0; i < a.Count-1; i++)
+            for (int i = 0; i < a.Count - 1; i++)
             {
-                for (int j = i+1; j < a.Count && j-i <minDistance; j++)
+                for (int j = i + 1; j < a.Count && j - i < minDistance; j++)
                 {
                     if (a[i] == a[j])
-                    { 
+                    {
                         var distance = j - i;
 
                         if (distance < minDistance)
@@ -72,7 +171,7 @@ namespace Algorithms
                 }
             }
 
-            return minDistance == int.MaxValue ? -1: minDistance;
+            return minDistance == int.MaxValue ? -1 : minDistance;
         }
 
         #endregion
@@ -114,7 +213,7 @@ namespace Algorithms
      */
 
         public static void kaprekarNumbers(int p, int q)
-        {           
+        {
             bool anyKraperNumber = false;
             for (int i = p; i <= q; i++)
             {
@@ -125,7 +224,7 @@ namespace Algorithms
                 }
             }
 
-            if(!anyKraperNumber)
+            if (!anyKraperNumber)
                 Console.WriteLine("INVALID RANGE");
         }
 
@@ -136,7 +235,7 @@ namespace Algorithms
             string powStr = pow.ToString();
 
             string firstHalfStr = powStr.Substring(0, powStr.Length / 2);
-            double firstHalfNumber = double.Parse(firstHalfStr!= "" ? firstHalfStr: "0");
+            double firstHalfNumber = double.Parse(firstHalfStr != "" ? firstHalfStr : "0");
 
             string secondHalfStr = powStr.Substring(powStr.Length / 2);
             double secondHalfNumber = double.Parse(secondHalfStr != "" ? secondHalfStr : "0");
@@ -160,8 +259,8 @@ namespace Algorithms
 
         public static long taumBday(long b, long w, long bc, long wc, long z)
         {
-            long buyinBothColors = bc *b + wc *w;
-            long buyinOnlyBlackColors = (bc * b) + (bc+z) * w;
+            long buyinBothColors = bc * b + wc * w;
+            long buyinOnlyBlackColors = (bc * b) + (bc + z) * w;
             long buyinOnlyWhiteColors = (w * wc) + (wc + z) * b;
 
             return Math.Min(buyinBothColors, Math.Min(buyinOnlyBlackColors, buyinOnlyWhiteColors));
@@ -180,9 +279,9 @@ namespace Algorithms
         {
             int maxSubject = int.MinValue, countMaxSubjects = 0;
 
-            for (int i = 0; i < topic.Count-1; i++)
+            for (int i = 0; i < topic.Count - 1; i++)
             {
-                for (int j = i+1; j < topic.Count; j++)
+                for (int j = i + 1; j < topic.Count; j++)
                 {
                     var max = GetMaxSubjectsBetweenTeams(topic[i], topic[j]);
 
@@ -192,7 +291,7 @@ namespace Algorithms
                         countMaxSubjects = 1;
                     }
                     else if (max == maxSubject)
-                    { 
+                    {
                         countMaxSubjects++;
                     }
                 }
@@ -206,7 +305,7 @@ namespace Algorithms
             int result = 0;
             for (int i = 0; i < v1.Length; i++)
             {
-                if (v1[i]== '1' || v2[i] == '1')
+                if (v1[i] == '1' || v2[i] == '1')
                     result++;
             }
 
@@ -224,7 +323,7 @@ namespace Algorithms
      */
 
         public static int equalizeArray(List<int> arr)
-        {           
+        {
             var dict = arr.GroupBy<int, int>(x => x);
             var maxOcurrenceskeyValue = dict.FirstOrDefault(item => item.Count() == arr.Max(x => arr.Count(i => x == i)));
 
@@ -249,13 +348,13 @@ namespace Algorithms
 
         private static int jumpingOnCloudsRec(int index, List<int> c)
         {
-            if(index == c.Count-1)
+            if (index == c.Count - 1)
                 return 0;
 
             int jumpDouble = int.MaxValue, jumpSimple = int.MaxValue;
 
-            if (index + 2 <= c.Count - 1 && c[index+2] != 1)
-                jumpDouble = 1 + jumpingOnCloudsRec(index+2, c);
+            if (index + 2 <= c.Count - 1 && c[index + 2] != 1)
+                jumpDouble = 1 + jumpingOnCloudsRec(index + 2, c);
 
             if (index + 1 <= c.Count - 1 && c[index + 1] != 1)
                 jumpSimple = 1 + jumpingOnCloudsRec(index + 1, c);
@@ -278,7 +377,7 @@ namespace Algorithms
             int lengthStr = s.Length;
 
             long div = n / lengthStr;
-            int mod = (int) (n % lengthStr);
+            int mod = (int)(n % lengthStr);
 
             long countA = s.Count(x => x == 'a') * div;
             countA += s.Substring(0, mod).Count(x => x == 'a');
@@ -306,7 +405,7 @@ namespace Algorithms
             foreach (var combination in combinations)
             {
                 if (AreAllItemsNotEvenlyDivisibleByK(combination, k) && combination.Count > maxNumber)
-                { 
+                {
                     maxNumber = combination.Count;
                 }
             }
@@ -332,9 +431,9 @@ namespace Algorithms
             if (combination.Count == 1)
                 return false;
 
-            for (int i = 0; i < combination.Count-1; i++)
+            for (int i = 0; i < combination.Count - 1; i++)
             {
-                for (int j = i+1; j < combination.Count; j++)
+                for (int j = i + 1; j < combination.Count; j++)
                 {
                     if ((combination[i] + combination[j]) % k == 0)
                         return false;
@@ -356,7 +455,7 @@ namespace Algorithms
 
         public static List<int> cutTheSticks(List<int> arr)
         {
-            List<int> result = new List<int>() { arr.Count};
+            List<int> result = new List<int>() { arr.Count };
 
             while (arr.Count > 1 && arr.Any(a => a != arr[0]))
             {
@@ -390,9 +489,9 @@ namespace Algorithms
                 return true;
 
             int i = 0;
-            
+
             while (i < s.Length && i < t.Length && s[i] == t[i])
-            {                
+            {
                 i++;
             }
 
@@ -423,10 +522,10 @@ namespace Algorithms
             if (k < 0)
                 return false;
 
-            if(k%2==0)
+            if (k % 2 == 0)
                 return true;
 
-            k -= 2*i;
+            k -= 2 * i;
 
             return (k >= 0);
         }
@@ -1977,9 +2076,26 @@ namespace Algorithms
 
             //kaprekarNumbers(1, 99999);
 
-            Console.WriteLine(howManyGames(20, 3, 6, 70));
-            Console.WriteLine(howManyGames(20, 3, 6, 80));
-            Console.WriteLine(howManyGames(20, 3, 6, 85));
+            //Console.WriteLine(howManyGames(20, 3, 6, 70));
+            //Console.WriteLine(howManyGames(20, 3, 6, 80));
+            //Console.WriteLine(howManyGames(20, 3, 6, 85));
+
+            //Console.WriteLine(chocolateFeast(15, 3, 2));
+
+            //Console.WriteLine(chocolateFeast(10, 2, 5));
+
+            //Console.WriteLine(chocolateFeast(12, 4, 4));
+
+            //Console.WriteLine(chocolateFeast(6, 2, 2));
+
+            //Console.WriteLine(chocolateFeast(7, 3, 2));
+
+            //Console.WriteLine(workbook(5, 3, new List<int>() { 4,2,6,1,10 }));
+
+            //Console.WriteLine(workbook(15, 20, new List<int>() { 1, 8 ,19, 15, 2 ,29, 3, 2 ,25, 2, 19, 26, 17, 33, 22 }));
+
+            //Console.WriteLine(flatlandSpaceStations(5, new int[] { 0, 4 }));
+            Console.WriteLine(flatlandSpaceStations(1, new int[] { 0 }));
             Console.ReadLine();
         }
     }
