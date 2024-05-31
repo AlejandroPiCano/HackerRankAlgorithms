@@ -16,6 +16,86 @@ namespace Algorithms
 {
     internal class Program
     {
+        #region serviceLane
+        /*
+         * Complete the 'fairRations' function below.
+         *
+         * The function is expected to return a STRING.
+         * The function accepts INTEGER_ARRAY B as parameter.
+         */
+
+        private static bool isEven(int n)
+        {
+            return n % 2 == 0;
+        }
+
+        public static string fairRations(List<int> B)
+        {
+            int result = 0;
+            
+            if (B.All(b => isEven(b)))
+                return result.ToString();
+          
+            for (int i = 0; i < B.Count; i++)
+            {
+                if (!isEven(B[i]))
+                {
+                    if (i + 1 < B.Count && !isEven(B[i + 1]))
+                    {
+                        result += 2;
+                        B[i]++;
+                        B[i+1]++;
+                    }
+                    else if (i - 1 >= 0 && !isEven(B[i - 1]))
+                    {
+                        result += 2;
+                        B[i]++;
+                        B[i-1]++;
+                    }
+                    else if (i + 1 < B.Count)
+                    {
+                        result += 2;
+                        B[i]++;
+                        B[i+1]++;
+                    }
+                    else
+                    {
+                        return "NO";
+                    }
+                }
+            }
+
+            return result.ToString();
+        }
+        #endregion
+        
+        #region serviceLane
+        /*
+         * Complete the 'serviceLane' function below.
+         *
+         * The function is expected to return an INTEGER_ARRAY.
+         * The function accepts following parameters:
+         *  1. INTEGER n
+         *  2. 2D_INTEGER_ARRAY cases
+         */
+
+        public static List<int> serviceLane(int n, List<List<int>> cases, List<int> width)
+        {
+            var result = new List<int>();
+            for (int j = 0; j < cases.Count; j++)
+            {
+                var entry = cases[j][0];
+                var exit = cases[j][1];
+
+                var range = width.GetRange(entry, exit - entry +1);
+                result.Add(range.Min());
+            }
+
+            return result;
+        }
+        
+        #endregion
+        
         #region flatlandSpaceStations
         // Complete the flatlandSpaceStations function below.
         static int flatlandSpaceStations(int n, int[] c)
@@ -1914,10 +1994,136 @@ namespace Algorithms
             return Math.Abs(leftToRightDiagonal - rightToLeftDiagonal);
         }
         #endregion
+        
+        #region libraryFine
+        /*
+     * Complete the 'libraryFine' function below.
+     *
+     * The function is expected to return an INTEGER.
+     * The function accepts following parameters:
+     *  1. INTEGER d1
+     *  2. INTEGER m1
+     *  3. INTEGER y1
+     *  4. INTEGER d2
+     *  5. INTEGER m2
+     *  6. INTEGER y2
+     */
+
+        public static int libraryFine(int d1, int m1, int y1, int d2, int m2, int y2)
+        {
+            var returnedDate = new DateTime(y1, m1, d1);
+            var expectedDate = new DateTime(y2, m2, d2);
+
+            if (returnedDate.CompareTo(expectedDate) <= 0)
+                return 0;
+
+            if (returnedDate.Year > expectedDate.Year)
+                return 10000;
+            
+            if (returnedDate.Month > expectedDate.Month)
+                return 500 * (returnedDate.Month - expectedDate.Month);
+            
+            if (returnedDate.Day > expectedDate.Day)
+                return 15 * (returnedDate.Day - expectedDate.Day);
+
+            return 0;
+        }
+        #endregion
+        
+        #region nonDivisibleSubset
+        /*
+     * Complete the 'nonDivisibleSubset' function below.
+     *
+     * The function is expected to return an INTEGER.
+     * The function accepts following parameters:
+     *  1. INTEGER k
+     *  2. INTEGER_ARRAY s
+     */
+
+        private static Dictionary<string, int> PrevValues = new Dictionary<string, int>();
+        public static int nonDivisibleSubsetRec(int k, List<int> s, int index, List<int> subset)
+        {
+            if (index > s.Count - 1)
+            {
+                PrevValues[GetKey(index, subset)] = subset.Count;
+                return subset.Count;
+            }
+
+            string key = "";
+            
+            if (canAddElementToSubset(k, s[index], subset))
+            {
+                key = GetKey(index +1 , subset);
+                var notAddingNumber = PrevValues.ContainsKey(key) ? PrevValues[key] :  nonDivisibleSubsetRec(k, s, index + 1, subset);
+                
+                key = GetKey(index +1 , subset.Concat(new List<int>() {s[index]}).ToList());
+                var addingNumber = PrevValues.ContainsKey(key) ? PrevValues[key] : nonDivisibleSubsetRec(k, s, index + 1, subset.Concat(new List<int>() {s[index]}).ToList());
+                return Math.Max(notAddingNumber, addingNumber);
+            }
+            else
+            {
+                key = GetKey(index +1 , subset);
+                return PrevValues.ContainsKey(key) ? PrevValues[key] :  nonDivisibleSubsetRec(k, s, index + 1, subset);
+            }
+
+        }
+
+        private static bool canAddElementToSubset(int k, int number, List<int> subset)
+        {
+            return !subset.Any(s => (s + number) % k == 0);
+        }
+        
+        private static string GetKey(int index, List<int> subset)
+        {
+            return index.ToString() + "," + String.Concat(subset, ",");
+        }
+
+        public static int nonDivisibleSubset2(int k, List<int> s)
+        {
+            var result = nonDivisibleSubsetRec(k, s, 0, new List<int>());
+
+            PrevValues.Clear();
+            return result;
+        }
+        #endregion
 
         static async Task Main(string[] args)
         {
 
+            /*var result = serviceLane(4, new List<List<int>>()
+                {
+                    new List<int>() { 0, 3 },
+                    new List<int>() { 4, 6 },
+                    new List<int>() { 6, 7 },
+                    new List<int>() { 3, 5 },
+                    new List<int>() { 0, 7 },
+                },
+                new List<int>() { 2, 3, 1, 2, 3, 2, 3, 3 });*/
+            
+            var result = serviceLane(4, new List<List<int>>()
+                {
+                    new List<int>() { 2, 3 },
+                    new List<int>() { 1, 4 },
+                    new List<int>() { 2, 4 },
+                    new List<int>() { 2, 4 },
+                    new List<int>() { 2, 3 },
+                },
+                new List<int>() { 1,2,2,2,1 });
+                
+             foreach (var item in result)
+            {
+                Console.WriteLine(item);
+            }  
+
+          /*  var result = nonDivisibleSubset( 4, new List<int>(){19,10,12,10,24,25,22});
+            Console.WriteLine("el resultado de nonDivisibleSubset es" + result);
+            
+             result = nonDivisibleSubset( 3, new List<int>(){1,7,2,4});
+            Console.WriteLine("el resultado de nonDivisibleSubset es: " + result);
+            
+             result = nonDivisibleSubset( 7, new List<int>(){278, 576, 496 ,727, 410 ,124, 338 ,149, 209, 702, 282, 718, 771, 575 ,436});
+            Console.WriteLine("el resultado de nonDivisibleSubset es: " + result);
+            */
             //var result =  compareTriplets(new List<int>() { 1, 2, 3 }, new List<int>() { 1, 4, 3 });
 
             // foreach (var item in result)
@@ -2095,7 +2301,7 @@ namespace Algorithms
             //Console.WriteLine(workbook(15, 20, new List<int>() { 1, 8 ,19, 15, 2 ,29, 3, 2 ,25, 2, 19, 26, 17, 33, 22 }));
 
             //Console.WriteLine(flatlandSpaceStations(5, new int[] { 0, 4 }));
-            Console.WriteLine(flatlandSpaceStations(1, new int[] { 0 }));
+            //Console.WriteLine(flatlandSpaceStations(1, new int[] { 0 }));
             Console.ReadLine();
         }
     }
