@@ -18,6 +18,42 @@ namespace Algorithms
     //comment
     internal class Program
     {
+        #region cavityMap
+       /*
+       * Complete the 'cavityMap' function below.
+       *
+       * The function is expected to return a STRING_ARRAY.
+       * The function accepts STRING_ARRAY grid as parameter.
+       */
+
+       private static List<string> CloneList(List<string> grid)
+       {
+           return Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(Newtonsoft.Json.JsonConvert.SerializeObject(grid));
+       }
+       
+       private static bool IsCavity(List<string> grid, int i, int j)
+       {
+           return grid[i][j] > grid[i - 1][ j] && grid[i][ j] > grid[i + 1][ j] && grid[i][j] > grid[i][ j- 1] &&
+                  grid[i][j] > grid[i][ j + 1];
+       }
+       
+       
+        public static List<string> cavityMap(List<string> grid)
+        {
+            var result = CloneList(grid);
+            for (int i = 1; i < grid.Count - 1; i++)
+            {
+                for (int j = 1; j < grid[i].Count() - 1; j++)
+                {
+                    if (IsCavity(grid, i, j))
+                        result[i] = result[i].Substring(0,j) + "X"  + result[i].Substring(j+1, result[i].Length-j-1);
+                }
+            }
+
+            return result;
+        }
+        #endregion
+        
         #region serviceLane
         /*
          * Complete the 'fairRations' function below.
@@ -2102,7 +2138,7 @@ namespace Algorithms
                 },
                 new List<int>() { 2, 3, 1, 2, 3, 2, 3, 3 });*/
             
-            var result = serviceLane(4, new List<List<int>>()
+           /* var result = serviceLane(4, new List<List<int>>()
                 {
                     new List<int>() { 2, 3 },
                     new List<int>() { 1, 4 },
@@ -2111,6 +2147,9 @@ namespace Algorithms
                     new List<int>() { 2, 3 },
                 },
                 new List<int>() { 1,2,2,2,1 });
+                */
+
+           var result =  cavityMap(new List<string>() { "1112", "1912", "1892", "1234" });//cavityMap(new List<string>() { "989", "191", "111" });
                 
              foreach (var item in result)
             {
